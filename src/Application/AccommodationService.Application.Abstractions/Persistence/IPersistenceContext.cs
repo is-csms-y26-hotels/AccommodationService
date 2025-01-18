@@ -1,6 +1,10 @@
+using AccommodationService.Application.Abstractions.Persistence.Repositories;
+
 namespace AccommodationService.Application.Abstractions.Persistence;
 
 public interface IPersistenceContext
 {
-    // TODO: add repository properties
+    IHotelRepository HotelRepository { get; }
+
+    IRoomRepository RoomRepository { get; }
 }
