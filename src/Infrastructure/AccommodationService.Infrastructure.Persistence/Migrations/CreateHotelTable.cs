@@ -16,6 +16,7 @@ public class CreateHotelTable : IMigration
                              hotel_name text not null,
                              stars int not null,
                              city text not null,
+                             hotel_deleted boolean not null
                            );
                            """,
         });

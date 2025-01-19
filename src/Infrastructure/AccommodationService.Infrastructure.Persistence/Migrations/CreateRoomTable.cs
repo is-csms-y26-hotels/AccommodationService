@@ -16,7 +16,8 @@ public class CreateRoomTable : IMigration
               hotel_id bigint not null references hotels(hotel_id),
               room_number bigint not null,
               room_type room_type not null,
-              room_price money not null 
+              room_price money not null,
+              room_deleted boolean not null
             );
             """,
         });
