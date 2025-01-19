@@ -11,14 +11,14 @@ public class CreateHotelTable : IMigration
         context.Expressions.Add(new ExecuteSqlStatementExpression
         {
             SqlStatement = """
-                           create table hotels(
-                             hotel_id bigint primary key generated always as identity,
-                             hotel_name text not null,
-                             stars int not null,
-                             city text not null,
-                             hotel_deleted boolean not null
-                           );
-                           """,
+            create table hotels(
+             hotel_id bigint primary key generated always as identity,
+             hotel_name text not null,
+             stars int not null,
+             city text not null,
+             hotel_deleted boolean not null
+            );
+            """,
         });
     }
 
