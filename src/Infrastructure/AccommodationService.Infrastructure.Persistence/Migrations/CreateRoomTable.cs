@@ -4,6 +4,7 @@ using FluentMigrator.Infrastructure;
 
 namespace AccommodationService.Infrastructure.Persistence.Migrations;
 
+[Migration(3)]
 public class CreateRoomTable : IMigration
 {
     public void GetUpExpressions(IMigrationContext context)

@@ -4,6 +4,7 @@ using FluentMigrator.Infrastructure;
 
 namespace AccommodationService.Infrastructure.Persistence.Migrations;
 
+[Migration(1)]
 public class CreateEnums : IMigration
 {
     public void GetUpExpressions(IMigrationContext context)

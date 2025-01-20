@@ -7,6 +7,7 @@ using Itmo.Dev.Platform.Events;
 #pragma warning restore SA1210
 using AccommodationService.Application.Extensions;
 using AccommodationService.Infrastructure.Persistence.Extensions;
+using AccommodationService.Infrastructure.Persistence.Migrations.BackgroundService;
 using AccommodationService.Presentation.Grpc.Extensions;
 using AccommodationService.Presentation.Kafka.Extensions;
 using Microsoft.Extensions.Options;
@@ -30,6 +31,8 @@ builder.Services.AddPresentationKafka(builder.Configuration);
 builder.Services.AddPlatformEvents(b => b.AddPresentationKafkaHandlers());
 
 builder.Services.AddUtcDateTimeProvider();
+
+builder.Services.AddHostedService<MigrationBackgroundService>();
 
 WebApplication app = builder.Build();
 
