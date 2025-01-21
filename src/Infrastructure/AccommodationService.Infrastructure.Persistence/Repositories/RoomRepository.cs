@@ -18,12 +18,12 @@ public class RoomRepository : IRoomRepository
     public async IAsyncEnumerable<Room> QueryAsync(RoomQuery query, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         const string sql = """
-        SELECT room_id, hotel_id, room_number, room_type, room_price, room_deleted
+        SELECT room_id, room_number, room_type, room_price, room_deleted
         FROM rooms
-        WHERE (cardinaluty(@ids) = 0 OR room_id = any(@ids))
-        AND (room_id > @cursor)
+        WHERE (cardinaluty(@ids) = 0 OR hotel_id = any(@ids))
+        AND (hotel_id > @cursor)
         AND (@type IS NULL OR room_type = @type)
-        ORDER BY room_id
+        ORDER BY hotel_id
         LIMIT @pageSize
         """;
 
@@ -31,7 +31,7 @@ public class RoomRepository : IRoomRepository
 
         await using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.Add(new NpgsqlParameter("cursor", query.Cursor));
-        command.Parameters.Add(new NpgsqlParameter("ids", query.RoomIds));
+        command.Parameters.Add(new NpgsqlParameter("ids", query.HotelId));
         command.Parameters.Add(new NpgsqlParameter("pageSize", query.PageSize));
         command.Parameters.Add(new NpgsqlParameter("type", query.RoomType));
 
