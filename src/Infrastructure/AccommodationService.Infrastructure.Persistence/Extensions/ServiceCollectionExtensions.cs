@@ -2,9 +2,11 @@ using AccommodationService.Application.Abstractions.Persistence;
 using AccommodationService.Application.Abstractions.Persistence.Repositories;
 using AccommodationService.Application.Models.Rooms;
 using AccommodationService.Infrastructure.Persistence.Migrations;
+using AccommodationService.Infrastructure.Persistence.Options;
 using AccommodationService.Infrastructure.Persistence.Repositories;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Npgsql;
 
 namespace AccommodationService.Infrastructure.Persistence.Extensions;
@@ -13,11 +15,14 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructurePersistence(this IServiceCollection collection)
     {
-        // TODO: опшены для дб
         collection.AddFluentMigratorCore()
             .ConfigureRunner(rb => rb
                 .AddPostgres()
-                .WithGlobalConnectionString("Host=localhost;Port=5433;Database=postgres;Username=postgres;Password=postgres;")
+                .WithGlobalConnectionString(provider =>
+                {
+                    DatabaseOptions configuration = provider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
+                    return configuration.ConnectionString;
+                })
                 .ScanIn(typeof(CreateEnums).Assembly).For.Migrations());
 
         collection.AddScoped<IRoomRepository, RoomRepository>();
@@ -26,8 +31,8 @@ public static class ServiceCollectionExtensions
 
         collection.AddSingleton<NpgsqlDataSource>(provider =>
         {
-            // DatabaseConfiguration databaseSettings = provider.GetRequiredService<IOptions<DatabaseConfiguration>>().Value;
-            string connectionString = "Host=localhost;Port=5433;Database=postgres;Username=postgres;Password=postgres;";
+            DatabaseOptions databaseSettings = provider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
+            string connectionString = databaseSettings.ConnectionString;
 
             var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
 
