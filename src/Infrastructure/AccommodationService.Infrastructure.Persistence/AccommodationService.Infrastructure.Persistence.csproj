@@ -2,6 +2,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Application\AccommodationService.Application.Abstractions\AccommodationService.Application.Abstractions.csproj"/>
+        <ProjectReference Include="..\..\Application\AccommodationService.Application\AccommodationService.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
