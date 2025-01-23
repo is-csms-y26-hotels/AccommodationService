@@ -1,0 +1,24 @@
+syntax = "proto3";
+package AccommodationService.Presentation.Grpc.protos.Hotel;
+option csharp_namespace = "Accommodation.Service.Presentation.Grpc";
+
+service HotelService {
+  rpc GetHotels(GetHotelsRequest) returns (GetHotelsResponse);
+}
+
+message GetHotelsRequest {
+  string city = 2;
+  int32 page_size = 3;
+  int64 cursor = 4;
+}
+
+message GetHotelsResponse {
+  repeated HotelDto hotel_list = 1;
+}
+
+message HotelDto {
+  int64 hotel_id = 1;
+  string name = 2;
+  int32 stars = 3;
+  string city = 4;
+}
