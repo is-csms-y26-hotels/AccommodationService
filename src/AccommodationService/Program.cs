@@ -8,6 +8,7 @@ using Itmo.Dev.Platform.Events;
 using AccommodationService.Application.Extensions;
 using AccommodationService.Infrastructure.Persistence.Extensions;
 using AccommodationService.Infrastructure.Persistence.Migrations.BackgroundService;
+using AccommodationService.Presentation.Grpc.Controllers;
 using AccommodationService.Presentation.Grpc.Extensions;
 using AccommodationService.Presentation.Kafka.Extensions;
 using Microsoft.Extensions.Options;
@@ -42,5 +43,8 @@ app.UseRouting();
 app.UsePlatformObservability();
 
 app.UsePresentationGrpc();
+
+app.MapGrpcService<HotelController>();
+app.MapGrpcService<RoomController>();
 
 await app.RunAsync();
