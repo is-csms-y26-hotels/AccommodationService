@@ -42,7 +42,7 @@ public class RoomRepository : IRoomRepository
             yield return new Room(
                 RoomId: reader.GetInt64(reader.GetOrdinal("room_id")),
                 HotelId: reader.GetInt64(reader.GetOrdinal("hotel_id")),
-                RoomNumber: reader.GetInt64(reader.GetOrdinal("room_number")),
+                RoomNumber: reader.GetInt32(reader.GetOrdinal("room_number")),
                 RoomType: (RoomType)reader.GetValue(reader.GetOrdinal("room_type")),
                 Price: reader.GetDecimal(reader.GetOrdinal("room_price")));
         }

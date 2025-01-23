@@ -21,7 +21,6 @@ public class HotelRepository : IHotelRepository
         SELECT hotel_id, hotel_name, stars, city, hotel_deleted
         FROM hotels
         WHERE (cardinaluty(@ids) = 0 OR hotel_id = any(@ids))
-        AND (hotel_id > @cursor)
         AND (@city IS NULL OR city = @city)
         ORDER BY hotel_id
         LIMIT @pageSize 
@@ -31,7 +30,6 @@ public class HotelRepository : IHotelRepository
 
         await using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.Add(new NpgsqlParameter("cursor", query.Cursor));
-        command.Parameters.Add(new NpgsqlParameter("ids", query.HotelIds));
         command.Parameters.Add(new NpgsqlParameter("pageSize", query.PageSize));
         command.Parameters.Add(new NpgsqlParameter("city", query.City));
 
