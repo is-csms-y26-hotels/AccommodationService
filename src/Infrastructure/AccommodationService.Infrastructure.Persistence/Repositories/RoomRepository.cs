@@ -33,7 +33,17 @@ public class RoomRepository : IRoomRepository
         command.Parameters.Add(new NpgsqlParameter("cursor", query.Cursor));
         command.Parameters.Add(new NpgsqlParameter("id", query.HotelId));
         command.Parameters.Add(new NpgsqlParameter("pageSize", query.PageSize));
-        command.Parameters.Add(new NpgsqlParameter("type", query.RoomType));
+        if (query.RoomType is not null)
+        {
+            command.Parameters.Add(new NpgsqlParameter("type", query.RoomType));
+        }
+        else
+        {
+            command.Parameters.Add(new NpgsqlParameter("type", DBNull.Value)
+            {
+                DataTypeName = "room_type",
+            });
+        }
 
         await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
 

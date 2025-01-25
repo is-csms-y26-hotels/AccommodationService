@@ -16,7 +16,7 @@ public class CreateRoomTable : IMigration
               room_id bigint primary key generated always as identity,
               hotel_id bigint not null references hotels(hotel_id),
               room_number bigint not null,
-              room_type room_type not null,
+              room_type room_type,
               room_price money not null,
               room_deleted boolean not null
             );
