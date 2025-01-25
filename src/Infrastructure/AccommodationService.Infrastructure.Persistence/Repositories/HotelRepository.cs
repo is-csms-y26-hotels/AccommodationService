@@ -20,7 +20,7 @@ public class HotelRepository : IHotelRepository
         const string sql = """
         SELECT hotel_id, hotel_name, stars, city, hotel_deleted
         FROM hotels
-        WHERE (cardinaluty(@ids) = 0 OR hotel_id = any(@ids))
+        WHERE (hotel_id >= @cursor)
         AND (@city IS NULL OR city = @city)
         ORDER BY hotel_id
         LIMIT @pageSize 
@@ -38,7 +38,7 @@ public class HotelRepository : IHotelRepository
         while (await reader.ReadAsync(cancellationToken))
         {
             yield return new Hotel(
-                HotelId: reader.GetInt64(reader.GetOrdinal("room_id")),
+                HotelId: reader.GetInt64(reader.GetOrdinal("hotel_id")),
                 Name: reader.GetString(reader.GetOrdinal("hotel_name")),
                 Stars: reader.GetInt32(reader.GetOrdinal("stars")),
                 City: reader.GetString(reader.GetOrdinal("city")));
@@ -91,5 +91,29 @@ public class HotelRepository : IHotelRepository
         command.Parameters.AddWithValue("@hotelId", hotelId);
 
         await command.ExecuteNonQueryAsync(cancellationToken);
+    }
+
+    public async Task<long?> GetHotelByIdAsync(long hotelId, CancellationToken cancellationToken)
+    {
+        const string sql = """
+        SELECT hotel_id
+        WHERE hotel_id = @hotelId"
+        """;
+
+        await using NpgsqlConnection connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken);
+
+        var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@hotelId", hotelId);
+
+        await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
+
+        long? result = null;
+        while (await reader.ReadAsync(cancellationToken))
+        {
+             result = reader.GetInt64(reader.GetOrdinal("hotel_id"));
+             return result;
+        }
+
+        return result;
     }
 }
