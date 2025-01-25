@@ -46,7 +46,7 @@ public static class QueryMapper
                 .ToList());
     }
 
-    private static DomainRoomType MapFromGrpcEnum(RoomType roomType)
+    public static DomainRoomType MapFromGrpcEnum(RoomType roomType)
     {
         return roomType switch
         {

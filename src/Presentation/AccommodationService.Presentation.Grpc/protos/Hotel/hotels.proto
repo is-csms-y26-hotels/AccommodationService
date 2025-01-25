@@ -1,0 +1,51 @@
+syntax = "proto3";
+package AccommodationService.Presentation.Grpc.protos.Hotel;
+option csharp_namespace = "Accommodation.Service.Presentation.Grpc";
+
+service HotelService {
+  rpc GetHotels(GetHotelsRequest) returns (GetHotelsResponse);
+  rpc CreateHotel(CreateHotelRequest) returns (CreateHotelResponse);
+  rpc UpdateHotelStars(UpdateHotelStarsRequest) returns (UpdateHotelStarsResponse);
+  rpc SoftDeleteHotel(SoftDeleteHotelRequest) returns (SoftDeleteHotelResponse);
+}
+
+message GetHotelsRequest {
+  string city = 2;
+  int32 page_size = 3;
+  int64 cursor = 4;
+}
+
+message GetHotelsResponse {
+  repeated HotelDto hotel_list = 1;
+}
+
+message CreateHotelRequest {
+  string hotel_name = 1;
+  string city = 2;
+  int32 stars = 3;
+}
+
+message CreateHotelResponse {
+}
+
+message UpdateHotelStarsRequest {
+  int64 hotel_id = 1;
+  int32 stars = 2;
+}
+
+message UpdateHotelStarsResponse {
+}
+
+message SoftDeleteHotelRequest {
+  int64 hotel_id = 1;
+}
+
+message SoftDeleteHotelResponse {
+}
+
+message HotelDto {
+  int64 hotel_id = 1;
+  string name = 2;
+  int32 stars = 3;
+  string city = 4;
+}

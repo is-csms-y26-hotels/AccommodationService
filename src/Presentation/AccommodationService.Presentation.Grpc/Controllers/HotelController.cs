@@ -34,4 +34,31 @@ public class HotelController : HotelService.HotelServiceBase
 
         return await Task.FromResult(response);
     }
+
+    public override async Task<CreateHotelResponse> CreateHotel(
+        CreateHotelRequest request,
+        ServerCallContext context)
+    {
+        await _hotelService.AddHotelAsync(request.HotelName, request.Stars, request.City, context.CancellationToken);
+
+        return await Task.FromResult(new CreateHotelResponse());
+    }
+
+    public override async Task<UpdateHotelStarsResponse> UpdateHotelStars(
+        UpdateHotelStarsRequest request,
+        ServerCallContext context)
+    {
+        await _hotelService.UpdateHotelAsync(request.HotelId, request.Stars, context.CancellationToken);
+
+        return await Task.FromResult(new UpdateHotelStarsResponse());
+    }
+
+    public override async Task<SoftDeleteHotelResponse> SoftDeleteHotel(
+        SoftDeleteHotelRequest request,
+        ServerCallContext context)
+    {
+        await _hotelService.SoftDeleteHotelAsync(request.HotelId, context.CancellationToken);
+
+        return await Task.FromResult(new SoftDeleteHotelResponse());
+    }
 }

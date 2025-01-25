@@ -30,4 +30,32 @@ public class RoomController : RoomService.RoomServiceBase
 
         return await Task.FromResult(response);
     }
+
+    public override async Task<CreateRoomResponse> CreateRoom(
+        CreateRoomRequest request,
+        ServerCallContext context)
+    {
+        Application.Models.Rooms.RoomType mappedEnum = QueryMapper.MapFromGrpcEnum(request.RoomType);
+        await _roomService.AddRoomAsync(request.HotelId, request.RoomNumber, mappedEnum, request.Price.DecimalValue, context.CancellationToken);
+
+        return await Task.FromResult(new CreateRoomResponse());
+    }
+
+    public override async Task<UpdateRoomPriceResponse> UpdateRoomPrice(
+        UpdateRoomPriceRequest request,
+        ServerCallContext context)
+    {
+        await _roomService.UpdateRoomPriceAsync(request.RoomId, request.Price.DecimalValue, context.CancellationToken);
+
+        return await Task.FromResult(new UpdateRoomPriceResponse());
+    }
+
+    public override async Task<SoftDeleteRoomResponse> SoftDeleteRoom(
+        SoftDeleteRoomRequest request,
+        ServerCallContext context)
+    {
+        await _roomService.SoftDeleteRoomAsync(request.RoomId, context.CancellationToken);
+
+        return await Task.FromResult(new SoftDeleteRoomResponse());
+    }
 }
