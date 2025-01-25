@@ -15,6 +15,7 @@
     <PackageVersion Include="Itmo.Dev.Platform.Kafka" Version="2.3.247" />
     <PackageVersion Include="Itmo.Dev.Platform.Observability" Version="1.4.234" />
     <PackageVersion Include="Itmo.Dev.Platform.Persistence.Postgres" Version="1.2.245" />
+    <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageVersion Include="Npgsql" Version="9.0.2" />

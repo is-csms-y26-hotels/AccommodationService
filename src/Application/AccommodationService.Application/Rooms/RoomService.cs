@@ -10,10 +10,12 @@ namespace AccommodationService.Application.Rooms;
 public class RoomService
 {
     private readonly IRoomRepository _roomRepository;
+    private readonly IHotelRepository _hotelRepository;
 
-    public RoomService(IRoomRepository roomRepository)
+    public RoomService(IRoomRepository roomRepository, IHotelRepository hotelRepository)
     {
         _roomRepository = roomRepository;
+        _hotelRepository = hotelRepository;
     }
 
     public async Task AddRoomAsync(long hotelId, long roomNumber, RoomType roomType, decimal price, CancellationToken cancellationToken)
@@ -23,7 +25,15 @@ public class RoomService
             new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
             TransactionScopeAsyncFlowOption.Enabled);
 
-        await _roomRepository.AddRoomAsync(hotelId, roomNumber, roomType, price, cancellationToken);
+        long? result = await _hotelRepository.GetHotelByIdAsync(hotelId, cancellationToken);
+        if (result is not null)
+        {
+            await _roomRepository.AddRoomAsync(hotelId, roomNumber, roomType, price, cancellationToken);
+        }
+        else
+        {
+            throw new ArgumentException("Hotel not found");
+        }
 
         transaction.Complete();
     }

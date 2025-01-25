@@ -9,6 +9,7 @@
         <PackageReference Include="FluentMigrator" />
         <PackageReference Include="FluentMigrator.Runner" />
         <PackageReference Include="Itmo.Dev.Platform.Persistence.Postgres" />
+        <PackageReference Include="Microsoft.AspNetCore.Http" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
         <PackageReference Include="Npgsql" />
     </ItemGroup>

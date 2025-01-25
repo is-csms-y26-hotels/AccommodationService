@@ -54,11 +54,32 @@ public class HotelService
 
     public async Task<IEnumerable<HotelDto>> QueryAsync(HotelQuery query, CancellationToken cancellationToken)
     {
+        using var transaction = new TransactionScope(
+            TransactionScopeOption.Required,
+            new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
+            TransactionScopeAsyncFlowOption.Enabled);
+
         IAsyncEnumerable<Hotel> hotels = _hotelRepository.QueryAsync(query, cancellationToken);
+
+        transaction.Complete();
 
         IAsyncEnumerable<HotelDto> hotelsDtos = DtoMapper.MapToHotelDtos(hotels);
         IEnumerable<HotelDto> listHotels = hotelsDtos.ToEnumerable();
 
         return await Task.FromResult(listHotels);
+    }
+
+    public async Task<long?> GetByHotelIdAsync(long hotelId, CancellationToken cancellationToken)
+    {
+        using var transaction = new TransactionScope(
+            TransactionScopeOption.Required,
+            new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
+            TransactionScopeAsyncFlowOption.Enabled);
+
+        long? result = await _hotelRepository.GetHotelByIdAsync(hotelId, cancellationToken);
+
+        transaction.Complete();
+
+        return result;
     }
 }

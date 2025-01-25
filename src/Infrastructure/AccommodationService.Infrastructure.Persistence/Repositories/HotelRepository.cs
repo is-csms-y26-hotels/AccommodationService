@@ -97,7 +97,8 @@ public class HotelRepository : IHotelRepository
     {
         const string sql = """
         SELECT hotel_id
-        WHERE hotel_id = @hotelId"
+        FROM hotels
+        WHERE hotel_id = @hotelId
         """;
 
         await using NpgsqlConnection connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken);
