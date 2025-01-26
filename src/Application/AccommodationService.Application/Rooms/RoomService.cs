@@ -64,11 +64,32 @@ public class RoomService
 
     public async Task<IEnumerable<RoomDto>> QueryAsync(RoomQuery query, CancellationToken cancellationToken)
     {
+        using var transaction = new TransactionScope(
+            TransactionScopeOption.Required,
+            new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
+            TransactionScopeAsyncFlowOption.Enabled);
+
         IAsyncEnumerable<Room> rooms = _roomRepository.QueryAsync(query, cancellationToken);
+
+        transaction.Complete();
 
         IAsyncEnumerable<RoomDto> roomsDtos = DtoMapper.MapToRoomDtos(rooms);
         IEnumerable<RoomDto> listRooms = roomsDtos.ToEnumerable();
 
         return await Task.FromResult(listRooms);
+    }
+
+    public async Task<long?> GetRoomIdAsync(long roomId, CancellationToken cancellationToken)
+    {
+        using var transaction = new TransactionScope(
+            TransactionScopeOption.Required,
+            new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
+            TransactionScopeAsyncFlowOption.Enabled);
+
+        long? result = await _roomRepository.GetRoomByIdAsync(roomId, cancellationToken);
+
+        transaction.Complete();
+
+        return result;
     }
 }

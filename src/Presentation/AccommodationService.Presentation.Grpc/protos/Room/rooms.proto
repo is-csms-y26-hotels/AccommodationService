@@ -8,6 +8,7 @@ service RoomService {
   rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse);
   rpc UpdateRoomPrice(UpdateRoomPriceRequest) returns (UpdateRoomPriceResponse);
   rpc SoftDeleteRoom(SoftDeleteRoomRequest) returns (SoftDeleteRoomResponse);
+  rpc ValidateRoom(ValidateRoomRequest) returns (ValidateRoomResponse);
 }
 
 message GetRoomsByHotelRequest {
@@ -44,6 +45,14 @@ message SoftDeleteRoomRequest {
 }
 
 message SoftDeleteRoomResponse {
+}
+
+message ValidateRoomRequest{
+  int64 room_id = 1;
+}
+
+message ValidateRoomResponse {
+  bool result = 1;
 }
 message RoomDto {
   int64 room_id = 1;

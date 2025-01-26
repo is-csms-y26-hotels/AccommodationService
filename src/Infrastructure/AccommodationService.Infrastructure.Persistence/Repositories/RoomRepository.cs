@@ -106,4 +106,29 @@ public class RoomRepository : IRoomRepository
 
         await command.ExecuteNonQueryAsync(cancellationToken);
     }
+
+    public async Task<long?> GetRoomByIdAsync(long roomId, CancellationToken cancellationToken)
+    {
+        const string sql = """
+        SELECT room_id
+        FROM rooms
+        WHERE room_id = @roomId
+        """;
+
+        await using NpgsqlConnection connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken);
+
+        var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@roomId", roomId);
+
+        await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
+
+        long? result = null;
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            result = reader.GetInt64(reader.GetOrdinal("room_id"));
+            return result;
+        }
+
+        return result;
+    }
 }

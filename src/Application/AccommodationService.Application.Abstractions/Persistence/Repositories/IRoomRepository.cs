@@ -12,4 +12,6 @@ public interface IRoomRepository
     Task UpdateRoomPriceAsync(long roomId,  decimal price, CancellationToken cancellationToken);
 
     Task SoftDeleteRoomAsync(long roomId, CancellationToken cancellationToken);
+
+    Task<long?> GetRoomByIdAsync(long roomId, CancellationToken cancellationToken);
 }

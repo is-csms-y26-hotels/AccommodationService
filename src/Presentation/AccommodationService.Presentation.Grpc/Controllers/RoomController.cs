@@ -58,4 +58,21 @@ public class RoomController : RoomService.RoomServiceBase
 
         return await Task.FromResult(new SoftDeleteRoomResponse());
     }
+
+    public override async Task<ValidateRoomResponse> ValidateRoom(
+        ValidateRoomRequest request,
+        ServerCallContext context)
+    {
+        long? result = await _roomService.GetRoomIdAsync(request.RoomId, context.CancellationToken);
+
+        return result is not null
+            ? new ValidateRoomResponse
+            {
+                Result = true,
+            }
+            : new ValidateRoomResponse
+            {
+                Result = false,
+            };
+    }
 }

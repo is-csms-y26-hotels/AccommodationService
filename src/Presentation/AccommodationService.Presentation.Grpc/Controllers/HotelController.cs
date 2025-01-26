@@ -61,4 +61,21 @@ public class HotelController : HotelService.HotelServiceBase
 
         return await Task.FromResult(new SoftDeleteHotelResponse());
     }
+
+    public override async Task<ValidateHotelResponse> ValidateHotel(
+        ValidateHotelRequest request,
+        ServerCallContext context)
+    {
+        long? result = await _hotelService.GetByHotelIdAsync(request.HotelId, context.CancellationToken);
+
+        return result is not null
+            ? new ValidateHotelResponse
+            {
+                Result = true,
+            }
+            : new ValidateHotelResponse
+            {
+                Result = false,
+            };
+    }
 }
