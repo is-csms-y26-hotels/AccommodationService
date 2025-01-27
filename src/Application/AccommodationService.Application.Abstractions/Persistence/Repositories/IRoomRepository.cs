@@ -14,4 +14,6 @@ public interface IRoomRepository
     Task SoftDeleteRoomAsync(long roomId, CancellationToken cancellationToken);
 
     Task<long?> GetRoomByIdAsync(long roomId, CancellationToken cancellationToken);
+
+    Task<long?> GetRoomPhysicalNumberAsync(long roomId, CancellationToken cancellationToken);
 }

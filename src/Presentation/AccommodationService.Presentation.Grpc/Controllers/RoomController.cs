@@ -75,4 +75,18 @@ public class RoomController : RoomService.RoomServiceBase
                 Result = false,
             };
     }
+
+    public override async Task<GetRoomPhysicalNumberResponse> GetRoomPhysicalNumber(
+        GetRoomPhysicalNumberRequest request,
+        ServerCallContext context)
+    {
+        long? result = await _roomService.GetPhysicalRoomNumberAsync(request.RoomId, context.CancellationToken);
+
+        return result is not null
+            ? new GetRoomPhysicalNumberResponse()
+            {
+                RoomNumber = (long)result,
+            }
+            : new GetRoomPhysicalNumberResponse();
+    }
 }

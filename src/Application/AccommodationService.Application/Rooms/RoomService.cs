@@ -92,4 +92,18 @@ public class RoomService
 
         return result;
     }
+
+    public async Task<long?> GetPhysicalRoomNumberAsync(long roomId, CancellationToken cancellationToken)
+    {
+        using var transaction = new TransactionScope(
+            TransactionScopeOption.Required,
+            new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
+            TransactionScopeAsyncFlowOption.Enabled);
+
+        long? result = await _roomRepository.GetRoomPhysicalNumberAsync(roomId, cancellationToken);
+
+        transaction.Complete();
+
+        return result;
+    }
 }

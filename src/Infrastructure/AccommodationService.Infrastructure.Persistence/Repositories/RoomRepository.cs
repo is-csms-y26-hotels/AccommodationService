@@ -131,4 +131,29 @@ public class RoomRepository : IRoomRepository
 
         return result;
     }
+
+    public async Task<long?> GetRoomPhysicalNumberAsync(long roomId, CancellationToken cancellationToken)
+    {
+        const string sql = """
+        SELECT room_number
+        FROM rooms
+        WHERE room_id = @roomId
+        """;
+
+        await using NpgsqlConnection connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken);
+
+        var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@roomId", roomId);
+
+        await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
+
+        long? result = null;
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            result = reader.GetInt64(reader.GetOrdinal("room_number"));
+            return result;
+        }
+
+        return result;
+    }
 }
