@@ -82,4 +82,18 @@ public class HotelService
 
         return result;
     }
+
+    public async Task<string> GetHotelNameByIdAsync(long hotelId, CancellationToken cancellationToken)
+    {
+        using var transaction = new TransactionScope(
+            TransactionScopeOption.Required,
+            new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
+            TransactionScopeAsyncFlowOption.Enabled);
+
+        string hotelName = await _hotelRepository.GetHotelNameByIdAsync(hotelId, cancellationToken);
+
+        transaction.Complete();
+
+        return hotelName;
+    }
 }

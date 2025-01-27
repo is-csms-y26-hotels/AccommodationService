@@ -78,4 +78,18 @@ public class HotelController : HotelService.HotelServiceBase
                 Result = false,
             };
     }
+
+    public override async Task<GetHotelNameResponse> GetHotelName(
+        GetHotelNameRequest request,
+        ServerCallContext context)
+    {
+        string hotelName = await _hotelService.GetHotelNameByIdAsync(request.HotelId, context.CancellationToken);
+
+        return hotelName.Length > 0
+            ? new GetHotelNameResponse()
+            {
+                HotelName = hotelName,
+            }
+            : new GetHotelNameResponse();
+    }
 }

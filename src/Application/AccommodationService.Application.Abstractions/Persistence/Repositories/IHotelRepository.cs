@@ -14,4 +14,6 @@ public interface IHotelRepository
     Task SoftDeleteHotelAsync(long hotelId, CancellationToken cancellationToken);
 
     Task<long?> GetHotelByIdAsync(long hotelId, CancellationToken cancellationToken);
+
+    Task<string> GetHotelNameByIdAsync(long hotelId, CancellationToken cancellationToken);
 }

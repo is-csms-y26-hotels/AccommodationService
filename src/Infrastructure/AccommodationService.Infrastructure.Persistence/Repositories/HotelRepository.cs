@@ -117,4 +117,29 @@ public class HotelRepository : IHotelRepository
 
         return result;
     }
+
+    public async Task<string> GetHotelNameByIdAsync(long hotelId, CancellationToken cancellationToken)
+    {
+        const string sql = """
+        SELECT hotel_name
+        FROM hotels
+        WHERE hotel_id = @hotelId";
+        """;
+
+        await using NpgsqlConnection connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken);
+
+        var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@hotelId", hotelId);
+
+        await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
+
+        string result = string.Empty;
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            result = reader.GetString(reader.GetOrdinal("hotel_name"));
+            return result;
+        }
+
+        return result;
+    }
 }

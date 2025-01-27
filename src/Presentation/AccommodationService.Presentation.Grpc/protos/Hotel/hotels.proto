@@ -8,6 +8,7 @@ service HotelService {
   rpc UpdateHotelStars(UpdateHotelStarsRequest) returns (UpdateHotelStarsResponse);
   rpc SoftDeleteHotel(SoftDeleteHotelRequest) returns (SoftDeleteHotelResponse);
   rpc ValidateHotel(ValidateHotelRequest) returns (ValidateHotelResponse);
+  rpc GetHotelName(GetHotelNameRequest) returns (GetHotelNameResponse);
 }
 
 message GetHotelsRequest {
@@ -51,6 +52,15 @@ message ValidateHotelRequest {
 message ValidateHotelResponse {
   bool result = 1;
 }
+
+message GetHotelNameRequest {
+  int64 hotel_id = 1;
+}
+
+message GetHotelNameResponse {
+  string hotel_name = 1;
+}
+
 message HotelDto {
   int64 hotel_id = 1;
   string name = 2;
