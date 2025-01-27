@@ -89,4 +89,18 @@ public class RoomController : RoomService.RoomServiceBase
             }
             : new GetRoomPhysicalNumberResponse();
     }
+
+    public override async Task<GetHotelIdByRoomIdResponse> GetHotelIdByRoomId(
+        GetHotelIdByRoomIdRequest request,
+        ServerCallContext context)
+    {
+        long? hotelId = await _roomService.GetHotelIdByRoomIdAsync(request.RoomId, context.CancellationToken);
+
+        return hotelId is not null
+            ? new GetHotelIdByRoomIdResponse
+            {
+                HotelId = (long)hotelId,
+            }
+            : new GetHotelIdByRoomIdResponse();
+    }
 }

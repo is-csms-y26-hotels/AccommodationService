@@ -16,4 +16,6 @@ public interface IRoomRepository
     Task<long?> GetRoomByIdAsync(long roomId, CancellationToken cancellationToken);
 
     Task<long?> GetRoomPhysicalNumberAsync(long roomId, CancellationToken cancellationToken);
+
+    Task<long?> GetHotelIdByRoomIdAsync(long hotelId, CancellationToken cancellationToken);
 }
