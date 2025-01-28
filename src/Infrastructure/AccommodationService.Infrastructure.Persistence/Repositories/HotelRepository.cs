@@ -66,7 +66,7 @@ public class HotelRepository : IHotelRepository
     {
         const string sql = """
         UPDATE hotels SET stars = @stars
-        WHERE hotel_id = @hotelId";
+        WHERE hotel_id = @hotelId
         """;
 
         await using NpgsqlConnection connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken);
