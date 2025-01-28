@@ -123,7 +123,7 @@ public class HotelRepository : IHotelRepository
         const string sql = """
         SELECT hotel_name
         FROM hotels
-        WHERE hotel_id = @hotelId";
+        WHERE hotel_id = @hotelId;
         """;
 
         await using NpgsqlConnection connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken);
