@@ -96,7 +96,7 @@ public class RoomRepository : IRoomRepository
     {
         const string sql = """
         UPDATE rooms SET room_deleted = true
-        WHERE roomId = @roomId
+        WHERE room_id = @roomId
         """;
 
         await using NpgsqlConnection connection = await _npgsqlDataSource.OpenConnectionAsync(cancellationToken);
