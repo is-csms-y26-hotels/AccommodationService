@@ -114,7 +114,7 @@ public class RoomService
             new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
             TransactionScopeAsyncFlowOption.Enabled);
 
-        long? result = await _hotelRepository.GetHotelByIdAsync(roomId, cancellationToken);
+        long? result = await _roomRepository.GetHotelIdByRoomIdAsync(roomId, cancellationToken);
 
         transaction.Complete();
 
